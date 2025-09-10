@@ -28,7 +28,6 @@ set.seed(123) #reproducibilidad
 ## ---- Importar datos ----
 #****************************************************************************
 #Si no se quiere repetir el proceso completo se pueden seleccionar datos de aquí e importarlos
-#Creo que esto lo podemos quitar en el github cuando lo subamos
 base_dir <- 'C:/Users/Ana/OneDrive - Universidad de Salamanca/Bioinformática/4. TFM/Datos'
 
 #Datos RAW base de datos
@@ -225,10 +224,7 @@ if (any(is.na(maf_filtrado))){
 #En vez de pivotar la tabla directamente lo hacemos en dos pasos. Primero las agrupamos y hacemos el encoding
 #De esta manera queda como mutación sí/no
 #Después pivotamos para que sean categóricas
-#Realmente podría utilizar el número total de mutaciones, no sé por qué en su momento decidí utilizar sólo sí/no
-#¿Puede que fuera para simplificar?
-
-#Si directamente lo pasamos a wider 
+#Si directamente lo pasamos a wider queda con el número y no con sí/no
 
 ####----2.1 Pivotar con número de mutaciones----
 maf_wider_gen <- maf_filtrado %>%
@@ -367,7 +363,7 @@ patients_subsets <- list()
 sample_size <- 50
 
 #No necesitamos repetir esto para todos
-#Lo hago con el de antes de filtrar porque ya tego la lista de las columnas
+#Lo hago con el de antes de filtrar porque ya tengo la lista de las columnas
 for (nivel in niveles) {
   subset_nivel <- mc_gen_num[mc_gen_num$figo_stage == nivel, gen_cols]
   patients <- rownames(subset_nivel)
@@ -761,3 +757,8 @@ saveRDS(xgb_mod_2, file = file.path(base_dir,"xgb_mod_mc_2.rds"))
 saveRDS(rf_mod_2, file = file.path(base_dir,"rf_mod_mc_2.rds"))
 saveRDS(lda_mod_2, file = file.path(base_dir,"lda_mod_mc_2.rds"))
 saveRDS(fda_mod_2, file = file.path(base_dir,"fda_mod_mc_2.rds"))
+
+
+#######################
+### ***** FIN ***** ###
+#######################
