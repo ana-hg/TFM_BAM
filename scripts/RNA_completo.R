@@ -208,8 +208,6 @@ rna_gtex_filtrado <- rna_gtex_filtrado[p_ceros <= 0.9, ]
 #Más adelante seleccionamos los mismos genes en ambos dataframes
 
 ##Exportamos los df
-#No entinedo por qué aunque les cambie el nombre para exportarlo se queda con las columnas
-
 rna_tcga_filtrado_export <- setDT(rna_tcga_filtrado, keep.rownames = 'Gen_Id')[]
 fwrite(rna_tcga_filtrado_export, file.path(base_dir, "rna_tcga_filtrado.csv"))
 rna_tcga_sano_export <- setDT(rna_tcga_sano, keep.rownames = 'Gen_Id')[]
@@ -400,8 +398,6 @@ rownames(coords) <- centroides$train_rna_ts_label
 distancias <- as.matrix(dist(coords))
 print(distancias)
 #write.csv(distancias, file = file.path(base_dir, "distancias_centroides_preBE.csv"), row.names = TRUE)
-#Buscar explicación centroides (supongo que es que el centroide de los tejido sanos está más cerca de los enfermos que de los sanos)
-
 
 
 
@@ -483,13 +479,6 @@ print(as.matrix(distancias_r))
 
 
 ###----6.Importar datos Batch effect corregido (python)----
-#Tenemos que añadir por qué lo hacemos con python y no con R (básicamente porque habría data leakage porque no podemos hacerlo por separado en los datos de entrenamiento y prueba)
-
-################
-#¡¡¡COMPLETAR!!!
-################
-#Si no nos sale bien con python podemos dejarlo en R aunque sea un poco más chapucero. De momento me voy a centrar en todo lo demás
-
 train_rna_nbe_python <- fread(file.path(base_dir, "RNA_train_batchCombat_corrected.csv"), na.strings = c("", " "))
 train_rna_nbe_python <- column_to_rownames(train_rna_nbe_python, var = "patient_id")
 train_rna_num_nbe_python <- train_rna_nbe_python[,-1]
@@ -548,12 +537,6 @@ print(as.matrix(distancias_p))
 
 
 ####----9. Eliminar datos tejido sano pacientes enfermos----
-
-#Si no tengo las etiquetas puestas se las uno
-#Este primero sólo sirve si están ordenados igual
-#train_rna_nb <- cbind(data.frame("Grupo" = train_rna_label[1:nrow(train_rna_pre)]), train_rna_num_nb[1:nrow(train_rna_pre),])
-#Esto solo tengo que hacerlo sólo si no importo el csv tood junto
-
 
 #Datos obtenidos en R:
 train_rna_nbe_R <- cbind(data.frame("Grupo" = train_rna_ts_label), train_rna_nbe_R)
@@ -941,9 +924,7 @@ mapping <- getBM(
 
 
 colnames(mapping) <- c('IDENTIFIER', 'ENSEMBL_ID')
-#Aquí vuelven a aparecer genes repetidos (supongo que para los que encuentra más de 1 ID) y hay algunos que desaparecen.
-#Tengo que hacer la comparación con los de training antes de seguir haciendo otras cosas
-#Aunque bueno, si las junto realmente van a tener el mismo valor, simplemente elimino al final las repetidas y ya está
+#Aquí vuelven a aparecer genes repetidos (para los que encuentra más de 1 ID) y hay algunos que desaparecen.
 
 
 #Continuamos con la selección de pacientes (más tarde continúo con la selección de genes)
@@ -1025,12 +1006,11 @@ fwrite(rna_val_filtered_export, file.path(base_dir, "rna_val_filtered.csv"))
 ## ---- Preprocesado ----
 #****************************************************************************
 #Después de seleccionar los genes hacemos las transformaciones (escalar). 
-#TIENE QUE SER IGUAL QUE LOS DATOS DE ENTRENAMIENTO
-#Estos datos están normalizados en escala lineal (eso creo que pone en la literatura)
+#Las transformaciones tienen que ser iguales que en los datos de entrenamiento
+#Estos datos están normalizados en escala lineal
 #https://www.frontiersin.org/journals/oncology/articles/10.3389/fonc.2013.00139/full
 #Como en el archivo de metadatos pone que vlaue type es count no tiene ningún tipo de normalización logarítmica.
 #Lo lineal concuerda con los valores. No son raw counts porque superarían los miles de lecturas y aquí superan los 100 pero no llegan a tanto
-#Tendría que justificarlo mejor pero creo que es así
 
 ###----1. Transformación y escalado----
 
@@ -1048,7 +1028,7 @@ rna_val_label <- rna_val[1]
 rna_val_scaled <- cbind(rna_val_label, rna_val_num)
 
 ###----2. Añadimos columnas faltantes----
-#PAra el PCA hacen falta exactamente las mismas columnas que en los datos usados para el entrenamiento
+#Para el PCA hacen falta exactamente las mismas columnas que en los datos usados para el entrenamiento
 #En nuestro caso tenemos menos así que las rellenamos con 0
 #Si eliminaros genes del entrenamiento sería contraproducente
 
@@ -1398,3 +1378,8 @@ for (k in 1:2) { #k es si es testing o validación
     dev.off()
   }
 }
+
+
+#######################
+### ***** FIN ***** ###
+#######################
