@@ -40,15 +40,12 @@ Este directorio contiene los modelos entrenados a partir de datos de **DNA-seq**
   Similar al anterior, pero en este caso se indica el **número de veces** que aparece cada tipo de mutación en cada paciente.
 
 ### RNASeq
-Este directorio contiene los modelos entrenados a partir de datos de **RNA-seq** para el TFM, organizados en 3 representaciones distintas de los datos (carpetas `1`, `2`, `3`).
-- **1/** → Texto:  
-  Texto  
+Este directorio contiene los modelos entrenados a partir de datos de **RNA-seq** para el TFM, organizados en 3 grupos distintos de los datos (carpetas `1`, `2`, `3`) dependiendo de cómo se hizo la correción de*Batch effect*.
+- **1/** → RNASeq sin corrección de *Batch effect*  
 
-- **2/** → Texto:
-  Texto 
+- **2/** → RNASeq con corrección de *Batch effect* hecha en R con el paquete Combat
 
-- **3/** → Texto:
-  Texto
+- **3/** → RNASeq con corrección de *Batch effect* hecha en Python con el paquete Combat y NeuroCombat
 
 #### Notas
 - Cada carpeta contiene los modelos entrenados (`.rds`) correspondientes a esa representación de los datos.  
