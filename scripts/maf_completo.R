@@ -28,30 +28,12 @@ set.seed(123) #reproducibilidad
 ## ---- Importar datos ----
 #****************************************************************************
 #Si no se quiere repetir el proceso completo se pueden seleccionar datos de aquí e importarlos
-base_dir <- 'C:/Users/Ana/OneDrive - Universidad de Salamanca/Bioinformática/4. TFM/Datos'
+base_dir <- 'basedir'
 
 #Datos RAW base de datos
 maf_df <- fread(file.path(base_dir, "maf/raw/maf_data.csv"), na.strings = c("", " "))
 clinical_df <- fread(file.path(base_dir, "maf/raw/clinical_data.csv"), na.strings = c("", " "))
 
-
-
-#Datos filtrados
-maf_filtrado <- fread(file.path(base_dir, "maf/filtrado/maf_filtrado.csv"), na.strings = c("", " "))
-clinical_filtrado <- fread(file.path(base_dir, "maf/filtrado/clinical_filtrado.csv"), na.strings = c("", " "))
-clinical_filtrado <- column_to_rownames(clinical_filtrado, var = "patient_id")
-
-#Datos preprocesados
-#Sería mejor guardar un rds
-##Wider df
-mc_gen_num <- fread(file.path(base_dir, "mc_gen_num.csv"), na.strings = c("", " "))
-mc_gen_num <- column_to_rownames(mc_gen_num, var = "patient_id")
-mc_mut_num <- fread(file.path(base_dir, "mc_mut_num.csv"), na.strings = c("", " "))
-mc_mut_num <- column_to_rownames(mc_mut_num, var = "patient_id")
-mc_gen_encoded <- fread(file.path(base_dir, "mc_gen_encoded.csv"), na.strings = c("", " "))
-mc_gen_encoded <- column_to_rownames(mc_gen_encoded, var = "patient_id")
-mc_mut_encoded <- fread(file.path(base_dir, "mc_mut_encoded.csv"), na.strings = c("", " "))
-mc_mut_encoded <- column_to_rownames(mc_mut_encoded, var = "patient_id")
 
 #Datos entrenamiento/testing
 base_dir <- 'C:/Users/Ana/OneDrive - Universidad de Salamanca/Bioinformática/4. TFM/Datos/maf/elastic_net'
@@ -73,7 +55,6 @@ fda_mod_4 <- readRDS(file.path(base_dir,"fda_mod_mc_4.rds"))
 #****************************************************************************
 ## ---- TCGABiolinks ----
 #****************************************************************************
-#setwd("C:/Users/Ana/TCGA")
 
 
 ### ---- 1. Descargar mutaciones (MAF) ----
