@@ -29,7 +29,7 @@ set.seed(123) #reproducibilidad
 #****************************************************************************
 ## ---- Importar datos ----
 #****************************************************************************
-base_dir <- 'C:/Users/Ana/OneDrive - Universidad de Salamanca/Bioinformática/4. TFM/Datos'
+base_dir <- 'basedir'
 
 #Datos RAW base de datos
 rna_tcga <- fread(file.path(base_dir, "rna_tcga.csv"), na.strings = c("", " "))
@@ -65,8 +65,6 @@ rm(fda_mod, lda_mod, svm_mod, rf_mod)
 #****************************************************************************
 ## ---- Recount3 ----
 #****************************************************************************
-#setwd("C:/Users/Ana/Recount3")
-
 
 proyectos <- available_projects()
 
@@ -437,17 +435,17 @@ pca_model_2 <- prcomp(train_rna_nbe_R, center = FALSE, scale = FALSE)
 pca_df_2 <- data.frame(pca_model_2$x)
 
 #Varianza explicada (varianza/total varianza)
-varianza_explicada <- pca_model_2$sdev^2 / sum(pca_model_2$sdev^2)
-varianza_acumulada <- cumsum(varianza_explicada)
-n_pc_2 <- as.numeric(min(which(varianza_acumulada > 0.7)))
+varianza_explicada_2 <- pca_model_2$sdev^2 / sum(pca_model_2$sdev^2)
+varianza_acumulada_2 <- cumsum(varianza_explicada_2)
+n_pc_2 <- as.numeric(min(which(varianza_acumulada_2 > 0.7)))
 
 #Visualizamos dos dimensiones 
 pca_plot_2 <- ggplot(pca_df_2, aes(x = PC1, y = PC2, color = train_rna_ts_label)) +  
   geom_point(size = 3) + 
   scale_color_manual(values = c("orange", "red", "green")) + 
   labs(title = "PCA: distribución después de la correción del Batch Effect (R)", 
-       x = paste0(paste("PC1",round(varianza_explicada[1]*100, 2)),'%'), 
-       y = paste0(paste("PC2",round(varianza_explicada[2]*100, 2)),'%'), 
+       x = paste0(paste("PC1",round(varianza_explicada_2[1]*100, 2)),'%'), 
+       y = paste0(paste("PC2",round(varianza_explicada_2[2]*100, 2)),'%'), 
        color = "Grupo") + 
   theme_classic() +
   theme(panel.grid.major = element_line(color = "gray90"), 
@@ -496,17 +494,17 @@ pca_model_3 <- prcomp(train_rna_num_nbe_python, center = FALSE, scale = FALSE)
 pca_df_3 <- data.frame(pca_model_3$x)
 
 #Varianza explicada (varianza/total varianza)
-varianza_explicada <- pca_model_3$sdev^2 / sum(pca_model_3$sdev^2)
-varianza_acumulada <- cumsum(varianza_explicada)
-n_pc_3 <- as.numeric(min(which(varianza_acumulada > 0.7)))
+varianza_explicada_3 <- pca_model_3$sdev^2 / sum(pca_model_3$sdev^2)
+varianza_acumulada_3 <- cumsum(varianza_explicada_3)
+n_pc_3 <- as.numeric(min(which(varianza_acumulada_3 > 0.7)))
 
 #Visualizamos dos dimensiones 
 pca_plot_3 <- ggplot(pca_df_3, aes(x = PC1, y = PC2, color = train_rna_label_nbe_python)) +  #Las etiquetas que importo por si el orden de los pacientes es diferente
   geom_point(size = 3) + 
   scale_color_manual(values = c("orange", "red", "green")) + 
   labs(title = "PCA: distribución después de la correción del Batch Effect (Python)", 
-       x = paste0(paste("PC1",round(varianza_explicada[1]*100, 2)),'%'), 
-       y = paste0(paste("PC2",round(varianza_explicada[2]*100, 2)),'%'), 
+       x = paste0(paste("PC1",round(varianza_explicada_3[1]*100, 2)),'%'), 
+       y = paste0(paste("PC2",round(varianza_explicada_3[2]*100, 2)),'%'), 
        color = "Grupo") + 
   theme_classic() +
   theme(panel.grid.major = element_line(color = "gray90"), 
