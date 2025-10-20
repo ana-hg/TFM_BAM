@@ -5,7 +5,7 @@ Los archivos raw descargados de las bases de datos pueden descargarse utilizando
 https://drive.google.com/drive/folders/13V5oSTvUpOY7Y3YPG0uJ6lnwNWhUL1v0?usp=sharing
 
 ## Scripts
-En este directorio se encuentran los scripts empleados durante el trabajo:
+En este directorio se encuentran los scripts empleados durante el trabajo :
 - **RNA_completo.R**:  es un script en R en el que se realiza un análisis integral de datos de expresión génica de RNA para construir y evaluar modelos de aprendizaje automático. El objetivo principal es predecir la etapa FIGO (un sistema de clasificación para el cáncer) de los tumores, basándose en el perfil de expresión génica de los pacientes con cáncer de endometrio (proyecto TCGA-UCEC).
 El proceso se divide en:
   1. Adquisición de datos: El script utiliza el paquete TCGAbiolinks para descargar y preparar datos brutos de expresión génica de RNA-Seq y la información clínica correspondiente del repositorio GDC.  
